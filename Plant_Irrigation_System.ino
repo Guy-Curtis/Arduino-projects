@@ -84,7 +84,7 @@ void loop() {
   }
 
   // Display moisture level
-  if (moistureValue < 30) {
+  if (moistureValue > 30) {
     lcd.setCursor(0, 1);
     lcd.print("Moisture : HIGH");
   } else if (moistureValue > 300 && moistureValue < 950) {
