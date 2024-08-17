@@ -29,6 +29,7 @@ const int trigPin = 7;
 const int echoPin = 6;
 const int relayPin = 2;
 const int moistureSensorPin = A0;
+const int sensorThreshold = 20; // in cm
 long duration;
 int distance;
 
@@ -60,7 +61,7 @@ void loop() {
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2; // Convert to cm
 
-  // Read soil moisture
+  // Read soil moisture and water level
   int moistureValue = analogRead(moistureSensorPin);
   Serial.print("Moisture: ");
   Serial.println(moistureValue);
@@ -68,7 +69,7 @@ void loop() {
   Serial.println(distance);
 
   // Check water level and soil moisture
-  if (distance < 30) { // Adjusted threshold (cm)
+  if (distance < sensorThreshold) { 
     digitalWrite(relayPin, HIGH);
     lcd.setCursor(0, 0);
     lcd.print("Water Level LOW ");
@@ -83,7 +84,7 @@ void loop() {
   }
 
   // Display moisture level
-  if (moistureValue < 300) {
+  if (moistureValue < 30) {
     lcd.setCursor(0, 1);
     lcd.print("Moisture : HIGH");
   } else if (moistureValue > 300 && moistureValue < 950) {
@@ -96,3 +97,4 @@ void loop() {
 
   delay(1000); // Wait for a second before the next loop
 }
+
